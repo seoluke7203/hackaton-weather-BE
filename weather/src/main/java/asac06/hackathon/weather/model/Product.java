@@ -26,9 +26,9 @@ public class Product {
     private String name;
     private String category;
     private Integer price;
-    private String link;
+//    private String link;
     private String img;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductOrder> productOrders;
+//    @OneToMany(mappedBy = "product")
+//    private List<ProductOrder> productOrders;
 }
