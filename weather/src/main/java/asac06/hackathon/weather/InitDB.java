@@ -1,7 +1,9 @@
 package asac06.hackathon.weather;
 
 
+import asac06.hackathon.weather.model.Cart;
 import asac06.hackathon.weather.model.Product;
+import asac06.hackathon.weather.model.Size;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,15 @@ public class InitDB {
                 else category = "bottom";
 
                 Product product = createProduct(name, category, price, link, img);
+//                Cart cart = initCart(product, Size.S, 1, product.getPrice());
+//                em.persist(cart);
                 em.persist(product);
+
+//                Product product = createProduct(name, category, price, link, img);
+//                em.persist(product);
+//
+//                Cart cart = initCart(product, Size.S, 1, product.getPrice());
+//                em.persist(cart);
                 name = "상품";
             }
 
@@ -58,5 +68,9 @@ public class InitDB {
 
             return product;
         }
+
+//        public Cart initCart(Product entity, Size size, Integer count, Integer price) {
+//            return new Cart(1, entity, size, count, price);
+//        }
     }
 }
