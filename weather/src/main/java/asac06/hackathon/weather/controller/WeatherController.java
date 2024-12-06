@@ -1,6 +1,7 @@
 package asac06.hackathon.weather.controller;
 
 import asac06.hackathon.weather.common.ApiResponse;
+import asac06.hackathon.weather.repository.dto.WeatherResponseDTO;
 import asac06.hackathon.weather.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,12 @@ public class WeatherController {
     private final WeatherService weatherService;
 
     @GetMapping("/api/weather")
-    public ResponseEntity<ApiResponse<Integer>> getWeather() {
+    public ResponseEntity<ApiResponse<WeatherResponseDTO>> getWeather() {
 
-        Integer temperature = weatherService.getTemperature();
+        WeatherResponseDTO result = weatherService.getWeatherData();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse<>(200, null, temperature));
+                .body(new ApiResponse<>(200, null, result));
     }
 
 }
