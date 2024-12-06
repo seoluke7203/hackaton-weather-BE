@@ -23,8 +23,8 @@ public class MainController {
 //
 //        List<ProductDto> resultList = mainService.getRecommend();
 //
-//
 //        return ResponseEntity.status(HttpStatus.OK)
 //                .body(new ApiResponse<>(200, null, resultList));
 //    }
 }
+//}

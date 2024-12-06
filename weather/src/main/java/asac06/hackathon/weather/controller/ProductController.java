@@ -25,4 +25,12 @@ public class ProductController {
             .status(HttpStatus.OK)
             .body(productDtos);
     }
+
+//    @GetMapping("/main")
+//    public ResponseEntity<List<ProductDto>> AllProducts() {
+//        List<ProductDto> productDtos = productService.findAll();
+//        return ResponseEntity
+//            .status(HttpStatus.OK)
+//            .body(productDtos);
+//    }
 }

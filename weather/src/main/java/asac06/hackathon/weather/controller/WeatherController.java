@@ -25,5 +25,4 @@ public class WeatherController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse<>(200, null, result));
     }
-
 }
