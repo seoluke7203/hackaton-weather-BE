@@ -1,13 +1,10 @@
 package asac06.hackathon.weather.model;
 
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +25,7 @@ public class Product {
     private Integer price;
 //    private String link;
     private String img;
-
+    private String recommendCode;
 //    @OneToMany(mappedBy = "product")
 //    private List<ProductOrder> productOrders;
 }

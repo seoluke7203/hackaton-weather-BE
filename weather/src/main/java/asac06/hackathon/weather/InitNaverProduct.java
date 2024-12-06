@@ -17,6 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -37,15 +40,23 @@ public class InitNaverProduct {
         private final EntityManager em;
 
         public void productInit() {
-            // naver api 호출
-            String result = naverShopSearch();
 
-            // 네이버 데이터 파싱
-            // product 적재
-            getNaverProduct(result);
+            ProductCategoryForInit[] values = ProductCategoryForInit.values();
+
+            for (ProductCategoryForInit value : values) {
+                String recommendCode = value.getRecommendCode();
+                String categoryDetail = value.getCategoryDetail();
+
+                // naver api 호출
+                String result = naverShopSearch(categoryDetail);
+
+                // 네이버 데이터 파싱 & product 적재
+                getNaverProduct(result, recommendCode);
+            }
+
         }
 
-        public String naverShopSearch() {
+        public String naverShopSearch(String query) {
             String clientId = "algs6rvsCIALuPoEffAL"; //애플리케이션 클라이언트 아이디
             String clientSecret = "Vz1txXsO9D"; //애플리케이션 클라이언트 시크릿
 
@@ -53,18 +64,14 @@ public class InitNaverProduct {
 
             StringBuilder sb = new StringBuilder("https://openapi.naver.com/v1/search/shop.json");
 
-            String query = "롱코트";
-
-            try {
-                query = URLEncoder.encode(query, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("검색어 인코딩 실패",e);
-            }
-
             String display = "10";
             String start = "1";
 
-            sb.append("?query=" + query);
+            try {
+                sb.append("?query=" + URLEncoder.encode(query, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException("검색어 인코딩 실패",e);
+            }
 //        sb.append("&display=" + display);
 //        sb.append("&start=" + start);
 
@@ -98,7 +105,7 @@ public class InitNaverProduct {
             return result;
         }
 
-        public void getNaverProduct(String result) {
+        public void getNaverProduct(String result, String recommendCode) {
             JSONObject resultObj = new JSONObject(result);
 
             JSONArray jsonItems = resultObj.getJSONArray("items");
@@ -109,20 +116,28 @@ public class InitNaverProduct {
                 String image = jsonObject.getString("image");
                 int lprice = jsonObject.getInt("lprice");
 
-                Product product = createProduct(title, image, lprice);
+                Product product = createProduct(title, image, lprice, recommendCode);
 
                 em.persist(product);
             }
         }
 
-        private static Product createProduct(String title, String image, int lprice) {
+        private static Product createProduct(String title, String image, int lprice, String recommendCode) {
             Product product = new Product();
 
             product.setName(title);
             product.setImg(image);
             product.setPrice(lprice);
+            product.setRecommendCode(recommendCode);
 
             return product;
+        }
+
+        public static List<Map<String, String>> productCategoryForInit() {
+            List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+
+
+            return list;
         }
     }
 }
